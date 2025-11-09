@@ -14,7 +14,6 @@ public class MainPizzas {
    * @param args inutiles ici.
    */
   public static void main(String[] args) {
-	System.out.println("Je vais chier sur ta pizza bro");
     System.out.println("\nAppuyez sur Entrée pour terminer le programme ...");
     try {
       System.in.read();

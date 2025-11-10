@@ -32,8 +32,7 @@ public class Client implements InterClient {
 
 	@Override
 	public void ajouterPizza(Pizza pizza, int nombre, Commande cmd) throws NonConnecteException, CommandeException {
-		// TODO Auto-generated method stub
-
+		cmd.ajouterPizza(pizza);
 	}
 
 	@Override

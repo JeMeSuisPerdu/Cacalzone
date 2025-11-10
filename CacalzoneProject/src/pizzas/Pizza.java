@@ -19,6 +19,7 @@ public class Pizza {
   // Liste d'ingrédients
   private Set<Ingredient> ingredients = new HashSet<>();
   private Double prix;
+  private String photo;
   
   // --------------- CONSTRUCTEUR ---------------
   public Pizza(String nom, TypePizza typePizza) {
@@ -65,7 +66,13 @@ public class Pizza {
               + this.prixMinimalPizza());
     }
   }
-  
+  public String getPhoto() {
+    return photo;
+  }
+
+  public void setPhoto(String photo) {
+    this.photo = photo;
+  }
   // --------------- METHODES UTILITAIRES ---------------
   
   /**
@@ -91,6 +98,8 @@ public class Pizza {
     
     return prix_Min;
   }
+
+
   
   
 }

@@ -24,7 +24,7 @@ public class Commande implements Serializable {
     /**
      * Liste des pizzas incluses dans cette commande.
      */
-    private final List<Pizza> pizzas;
+    private List<Pizza> pizzas;
 
     /**
      * L'état actuel de la commande.
@@ -73,6 +73,7 @@ public class Commande implements Serializable {
      * Valide la commande, change l'état de CREEE à VALIDEE.
      *
      * @return vrai si la commande a été validée, false sinon
+     * @todo vérifier que y a bien des pizzas dans la commande
      */
     public boolean valider() {
         if (this.etat == Etat.CREEE) {
@@ -101,11 +102,12 @@ public class Commande implements Serializable {
      * Nécessite que la classe Pizza ait une méthode getPrixDeVente().
      *
      * @return le prix total de la commande
+     * @todo adapter pour faire marcher ca avec un map
      */
     public double getPrixTotal() {
         double total = 0.0;
         for (Pizza pizza : this.pizzas) {
-            
+            total+= pizza.getPrix();
         }
         return total;
     }

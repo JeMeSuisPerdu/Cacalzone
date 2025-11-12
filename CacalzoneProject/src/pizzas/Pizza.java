@@ -98,6 +98,16 @@ public class Pizza {
     
     return prix_Min;
   }
+  
+  public Boolean ajouterIngredient(Ingredient i) {
+    if(!this.ingredients.contains(i)&& i.getTypePizza().contains(this.getUntype()))
+    {
+      this.ingredients.add(i);
+      return true;
+    }
+    return false;
+    
+  }
 
 
   

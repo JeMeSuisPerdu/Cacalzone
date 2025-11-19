@@ -15,7 +15,7 @@ public class MainPizzas {
    * @param args inutiles ici.
    */
   public static void main(String[] args) {
-    System.out.println("\n------------- TEST PIZZA -------------");
+    System.out.println("\n------------- TEST TEMPORAIRE PIZZA -------------");
     
     Pizza pizza = new Pizza("Margherita",TypePizza.Vegetarienne);
     

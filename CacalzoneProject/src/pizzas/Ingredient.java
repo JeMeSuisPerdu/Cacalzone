@@ -7,13 +7,13 @@ public class Ingredient {
 	//--------------- ATTRIBUTS ---------------
 	String nom;
 	Double prix;
-	Set<TypePizza> typePizza;
+	Set<TypePizza> typePizzaInterdit;
 	//--------------- CONSTRUCTEUR ---------------
-	public Ingredient(String nom, Double prix,Set<TypePizza> typePizza) {
+	public Ingredient(String nom, Double prix,Set<TypePizza> typesPizzaInterdits) {
 		super();
 		this.nom = nom;
 		this.prix = prix;
-		this.typePizza = new HashSet<>(typePizza);
+		this.typePizzaInterdit = new HashSet<>(typesPizzaInterdits);
 	}
 	
 	//--------------- GETTERS // SETTERS ---------------
@@ -30,12 +30,12 @@ public class Ingredient {
 		this.prix = prix;
 	}
 
-  public Set<TypePizza> getTypePizza() {
-    return typePizza;
+  public Set<TypePizza> getTypePizzaInterdit() {
+    return typePizzaInterdit;
   }
 
-  public void setTypePizza(Set<TypePizza> typePizza) {
-    this.typePizza = typePizza;
+  public void setTypePizzaInterdit(Set<TypePizza> typePizzaInterdit) {
+    this.typePizzaInterdit = typePizzaInterdit;
   }
 	
 }

@@ -100,7 +100,7 @@ public class Pizza {
   }
   
   public Boolean ajouterIngredient(Ingredient i) {
-    if(!this.ingredients.contains(i)&& i.getTypePizza().contains(this.getUntype()))
+    if(!this.ingredients.contains(i)&& !i.getTypePizzaInterdit().contains(this.getUntype()))
     {
       this.ingredients.add(i);
       return true;

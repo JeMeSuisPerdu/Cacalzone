@@ -2,7 +2,9 @@ package pizzas;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -18,13 +20,13 @@ public class Commande implements Serializable {
     public enum Etat {
         CREEE,     
         VALIDEE,   
-        TRAITEE    
+        TRAITEE
     }
 
     /**
-     * Liste des pizzas incluses dans cette commande.
+     * Map des pizzas et de leurs quantités dans cette commande.
      */
-    private List<Pizza> pizzas;
+    private Map<Pizza,Integer> pizzas;
 
     /**
      * L'état actuel de la commande.
@@ -48,25 +50,30 @@ public class Commande implements Serializable {
             throw new IllegalArgumentException("L'email du client ne peut pas être null ou vide.");
         }
         this.emailClient = emailClient;
-        this.pizzas = new ArrayList<>();
+        this.pizzas = new HashMap<>();
         this.etat = Etat.CREEE;
     }
 
     /**
      * Ajoute une pizza à la commande si elle est dans l'état CREEE.
-     *
+     * Modifie la quantité de pizza commandé si elle existe déjà
      * @param pizza la pizza à ajouter
      * @return vrai si la pizza a été ajoutée, false sinon 
      * @throws CommandeException si la commande n'est pas dans l'état CREEE
      */
-    public boolean ajouterPizza(Pizza pizza) throws CommandeException {
+    public boolean ajouterPizza(Pizza pizza,int quantite) throws CommandeException {
         if (this.etat != Etat.CREEE) {
             throw new CommandeException();
         }
         if (pizza == null) {
             return false;
         }
-        return this.pizzas.add(pizza);
+        if(this.pizzas.containsKey(pizza)) {
+          this.pizzas.replace(pizza, quantite);
+        }else {
+          this.pizzas.put(pizza,quantite);
+        }
+        return true;
     }
 
     /**
@@ -105,22 +112,18 @@ public class Commande implements Serializable {
      * @todo adapter pour faire marcher ca avec un map
      */
     public double getPrixTotal() {
-        double total = 0.0;
-        for (Pizza pizza : this.pizzas) {
-            total+= pizza.getPrix();
-        }
-        return total;
+      return this.pizzas.entrySet().stream()
+          .mapToDouble(i->i.getValue()*i.getKey().getPrix()).sum();
     }
 
     // --- Les Getters ---
 
     /**
-     * Renvoie la liste des pizzas de la commande.
-     *
-     * @return la liste des pizzas
+     * Renvoie un Map des pizzas de la commande.
+     * @return Map<pizza,quantité>
      */
-    public List<Pizza> getPizzas() {
-        return new ArrayList<>(this.pizzas); 
+    public Map<Pizza,Integer> getPizzas() {
+        return this.pizzas;
     }
 
     /**

@@ -32,7 +32,7 @@ public class Client implements InterClient {
 
 	@Override
 	public void ajouterPizza(Pizza pizza, int nombre, Commande cmd) throws NonConnecteException, CommandeException {
-		cmd.ajouterPizza(pizza);
+		cmd.ajouterPizza(pizza,nombre);
 	}
 
 	@Override

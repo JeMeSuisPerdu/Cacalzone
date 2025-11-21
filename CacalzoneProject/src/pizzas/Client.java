@@ -15,6 +15,9 @@ public class Client implements InterClient {
   
   // --------------------METHODES IMPLEMENTEES DE INTERCLIENT------------------------
 
+  public String nom;
+  public Object email;
+
   /**
    * Inscrit un nouveau client avec son email, son mot de passe
    * et ses informations personnelles.

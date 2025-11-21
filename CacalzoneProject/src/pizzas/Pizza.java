@@ -28,7 +28,7 @@ public class Pizza {
   private Double prix;
 
   /** Photo de la pizza (URL ou chemin local). */
-  private String photo;
+  private String photo = "";
   
   // --------------- CONSTRUCTEUR ---------------
   /**
@@ -68,7 +68,7 @@ public class Pizza {
    * 
    * @return typePizza
    */
-  public TypePizza getUntype() {
+  public TypePizza getTypePizza() {
     return typePizza;
   }
   
@@ -77,7 +77,7 @@ public class Pizza {
    * 
    * @param typePizza nouveau type
    */
-  public void setUntype(TypePizza typePizza) {
+  public void setTypePizza(TypePizza typePizza) {
     this.typePizza = typePizza;
   }
   
@@ -100,27 +100,29 @@ public class Pizza {
   }
   
   /**
-   * Retourne le prix de la pizza.
+   * Retourne le prix de la pizza ou le prix minimal
+   * si l'attribut prix est null
    * 
    * @return prix
    */
   public Double getPrix() {
-    return prix;
+    return (this.prix != null) 
+	  ? this.prix 
+   	  : this.getPrixMinimalPizza();
   }
   
   /**
    * Définit le prix de la pizza si celui-ci est supérieur ou égal au prix minimal calculé.
    * 
    * @param prix prix souhaité
+   * @return true si le prix a été changé, 
+	false si le prix donné est inférieur au prix minimal
    */
-  public void setPrix(Double prix) {
-    if (prix >= this.prixMinimalPizza()) {
-      this.prix = prix;
-    } else {
-      System.out.println(
-          "ERREUR : Prix minimal Pizza doit-être supérieur ou égal à : "
-              + this.prixMinimalPizza());
-    }
+  public boolean setPrix(Double prix) {
+	if (prix > this.getPrixMinimalPizza()) {
+	  this.prix = prix;
+	  return true;
+	} else return false;
   }
 
   /**
@@ -152,7 +154,7 @@ public class Pizza {
    *
    * @return prix minimal de la pizza
    */
-  public Double prixMinimalPizza() {
+  public Double getPrixMinimalPizza() {
     Double sommePrix = 0.0;
     // Parcours la liste d'ingrédients pour faire la somme de ceux-ci
     for (Iterator<Ingredient> it = ingredients.iterator(); it.hasNext();) {
@@ -178,12 +180,11 @@ public class Pizza {
    * @return true si l’ajout est autorisé et effectué, false sinon
    */
   public Boolean ajouterIngredient(Ingredient i) {
-    if (!this.ingredients.contains(i) && !i.getTypePizzaInterdit().contains(this.getUntype())) {
+    if (!this.ingredients.contains(i) && !i.getTypesPizzaInterdits().contains(this.getTypePizza())) {
       this.ingredients.add(i);
       return true;
     }
-    return false;
-    
-  }
+    return false; 
+  } 
   
 }

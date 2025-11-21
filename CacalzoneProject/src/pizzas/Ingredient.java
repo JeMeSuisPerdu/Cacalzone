@@ -19,7 +19,7 @@ public class Ingredient {
   Double prix;
 
   /** Ensemble des types de pizzas sur lesquels cet ingrédient est interdit. */
-  Set<TypePizza> typePizzaInterdit;
+  Set<TypePizza> typesPizzaInterdits = new HashSet<>();;
 
   // --------------- CONSTRUCTEUR ---------------
 
@@ -30,17 +30,28 @@ public class Ingredient {
    * @param prix prix de l'ingrédient
    * @param typesPizzaInterdits ensemble des types de pizzas pour lesquels ingrédient = interdit
    */
-  public Ingredient(String nom, Double prix, Set<TypePizza> typesPizzaInterdits) {
+  public Ingredient(String nom, Double prix) {
     super();
     this.nom = nom;
     this.prix = prix;
-    this.typePizzaInterdit = new HashSet<>(typesPizzaInterdits);
+  }
+  
+  // ----------------- METHODES---------------------
+  
+  /**
+   * Ajoute un type de pizza pour lequel 
+   * cet ingrédient est interdit.
+   * 
+   * @param typePizzaInterdit nouveau type interdit
+   */
+  public void addTypePizzaInterdit(TypePizza typePizzaInterdit) {
+    this.typesPizzaInterdits.add(typePizzaInterdit);
   }
   
   // --------------- GETTERS // SETTERS ---------------
 
   /**
-   * Retourne le nom de l'ingrédient.
+   * Renvoie le nom de l'ingrédient.
    * 
    * @return nom de l'ingrédient
    */
@@ -58,7 +69,7 @@ public class Ingredient {
   }
 
   /**
-   * Retourne le prix de l'ingrédient.
+   * Renvoie le prix de l'ingrédient.
    * 
    * @return prix de l'ingrédient
    */
@@ -76,21 +87,21 @@ public class Ingredient {
   }
 
   /**
-   * Retourne l'ensemble des types de pizzas pour lesquels cet ingrédient est interdit.
+   * Renvoie l'ensemble des types de pizzas pour lesquels cet ingrédient est interdit.
    * 
    * @return ensemble des types interdits
    */
-  public Set<TypePizza> getTypePizzaInterdit() {
-    return typePizzaInterdit;
+  public Set<TypePizza> getTypesPizzaInterdits() {
+    return typesPizzaInterdits;
   }
 
   /**
    * Modifie la liste des types de pizzas pour lesquels cet ingrédient est interdit.
    * 
-   * @param typePizzaInterdit nouvel ensemble de types interdits
+   * @param typesPizzaInterdits nouvel ensemble de types interdits
    */
-  public void setTypePizzaInterdit(Set<TypePizza> typePizzaInterdit) {
-    this.typePizzaInterdit = typePizzaInterdit;
+  public void setTypesPizzaInterdits(Set<TypePizza> typesPizzaInterdits) {
+    this.typesPizzaInterdits = typesPizzaInterdits;
   }
   
 }

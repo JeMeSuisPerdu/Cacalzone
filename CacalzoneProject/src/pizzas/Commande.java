@@ -170,19 +170,16 @@ public class Commande implements Serializable {
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Commande other = (Commande) obj;
-    return etat == other.etat && Objects.equals(pizzas, other.pizzas)
-        && Objects.equals(this.client.nom, other.this.client.nom);
+      if (this == obj) return true;
+      if (obj == null || getClass() != obj.getClass()) return false;
+
+      Commande other = (Commande) obj;
+
+      return etat == other.etat
+          && Objects.equals(pizzas, other.pizzas)
+          && Objects.equals(this.client.email, other.client.email);
   }
+
 
   /**
    * Retourne une représentation textuelle de la commande,

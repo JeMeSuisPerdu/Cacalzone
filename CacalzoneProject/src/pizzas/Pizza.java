@@ -156,15 +156,11 @@ public class Pizza {
    */
   public Double getPrixMinimalPizza() {
     Double sommePrix = 0.0;
-    // Parcours la liste d'ingrédients pour faire la somme de ceux-ci
     for (Iterator<Ingredient> it = ingredients.iterator(); it.hasNext();) {
       Ingredient i = it.next();
       sommePrix += i.getPrix();
     }
-    // (Prix : somme prix ingrédients + 40%) + conversion en centime grâce à
-    // *100
     Double prix40pourcent = (sommePrix * 1.4) * 100;
-    // Arrondit au supérieur à la dizaine de centimes :
     Double prixMin = Math.ceil(prix40pourcent / 10.0) * 10.0 / 100;
     
     return prixMin;

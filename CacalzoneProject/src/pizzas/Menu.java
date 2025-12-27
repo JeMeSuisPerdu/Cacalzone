@@ -1,60 +1,53 @@
 package pizzas;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Menu {
-	private Set<Pizza> pizzas;
-	private Set<Ingredient> ingredients;
-	
-	public Menu(Set<Pizza> pizzas, Set<Ingredient> ingredients) {
-		super();
-		this.pizzas = pizzas;
-		this.ingredients = ingredients;
-	}
+/**
+ * Le Menu centralise toutes les données.
+ */
+public class Menu implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	// renvoie l'ingredient si l'ingredient est déjà présent dans la collection, sinon renvoie null
-	public Ingredient ingredientExiste(String nom) {
-		Iterator it = this.ingredients.iterator();
-	    Ingredient ingredientExistant;
-	    
-	    while (it.hasNext()) {
-	    	ingredientExistant = (Ingredient) it.next();
-	    	if (nom.equals(ingredientExistant.getNom())) { return ingredientExistant; }
-	    }
-	    
-	    return null;
-	}
-	
-	// renvoie true si ne nom contient des lettres
-	public static boolean nomValide(String nom) {
-		return (nom != null && !nom.isBlank());
-	}
-	
-	public int creerIngredient(String nom, double prix) {
-		if (Menu.nomValide(nom)) { return -1; }
-	    if (prix <= 0) { return -3; }
-	    if (this.ingredientExiste(nom) != null) return -2;
-	    
-	    Ingredient nouvelIngredient = new Ingredient(nom, prix);
-	    this.ingredients.add(nouvelIngredient);
-	    return 0;
+    private Set<Pizza> pizzas = new HashSet<>();
+    private Set<Ingredient> ingredients = new HashSet<>();
+    private List<Utilisateur> utilisateurs = new ArrayList<>();
+    private List<Commande> commandesGlobales = new ArrayList<>();
+
+    public Menu() {
+        utilisateurs.add(new ComptePizzaiolo("chef@pizza.fr", "admin", 
+                new InformationPersonnelle("Mario", "Chef")));
     }
 
-	public Set<Pizza> getPizzas() {
-		return pizzas;
-	}
+    public Utilisateur authentifier(String email, String mdp) {
+        for (Utilisateur u : utilisateurs) {
+            if (u.getEmail().equalsIgnoreCase(email) && u.getMotDePasse().equals(mdp)) {
+                return u;
+            }
+        }
+        return null;
+    }
 
-	public void setPizzas(Set<Pizza> pizzas) {
-		this.pizzas = pizzas;
-	}
+    public Utilisateur trouverUtilisateur(String email) {
+        for (Utilisateur u : utilisateurs) {
+            if (u.getEmail().equalsIgnoreCase(email)) return u;
+        }
+        return null;
+    }
 
-	public Set<Ingredient> getIngredients() {
-		return ingredients;
-	}
+    public void ajouterUtilisateur(Utilisateur u) {
+        this.utilisateurs.add(u);
+    }
 
-	public void setIngredients(Set<Ingredient> ingredients) {
-		this.ingredients = ingredients;
-	}
-	
+    public void ajouterCommande(Commande c) {
+        this.commandesGlobales.add(c);
+    }
+
+    public Set<Pizza> getPizzas() { return pizzas; }
+    public Set<Ingredient> getIngredients() { return ingredients; }
+    public List<Commande> getCommandesGlobales() { return commandesGlobales; }
+    public List<Utilisateur> getUtilisateurs() { return utilisateurs; }
 }

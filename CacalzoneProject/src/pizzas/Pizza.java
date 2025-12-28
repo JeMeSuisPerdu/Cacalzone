@@ -1,5 +1,6 @@
 package pizzas;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -13,7 +14,7 @@ import pizzas.Ingredient;
  * et d'un ensemble d'ingrédients.
  *
  */
-public class Pizza {
+public class Pizza implements Serializable{
   // --------------- ATTRIBUTS ---------------
   /** Nom de la pizza. */
   private String nom;
@@ -23,7 +24,10 @@ public class Pizza {
 
   /** Liste des ingrédients constituant la pizza. */
   private Set<Ingredient> ingredients = new HashSet<>();
-
+  
+  /** Liste des évaluations constituant la pizza. */
+  private Set<Evaluation> evaluations = new HashSet<>();
+  
   /** Prix final de la pizza. */
   private Double prix;
 
@@ -100,6 +104,15 @@ public class Pizza {
   }
   
   /**
+   * Retourne la liste des évaluations associés à la pizza.
+   * 
+   * @return evaluations
+   */
+  public Set<Evaluation> getEvaluations() {
+	    return evaluations;
+  }
+  
+  /**
    * Retourne le prix de la pizza ou le prix minimal
    * si l'attribut prix est null
    * 
@@ -119,7 +132,7 @@ public class Pizza {
 	false si le prix donné est inférieur au prix minimal
    */
   public boolean setPrix(Double prix) {
-	if (prix > this.getPrixMinimalPizza()) {
+	if (prix >= this.getPrixMinimalPizza()) {
 	  this.prix = prix;
 	  return true;
 	} else return false;

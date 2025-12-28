@@ -1,14 +1,13 @@
 package pizzas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Entité représentant un client et son historique.
+ * Classe représentant un client et son historique.
  */
-public class CompteClient extends Utilisateur {
-    private static final long serialVersionUID = 1L;
-    
+public class CompteClient extends Utilisateur implements Serializable{    
     private List<Commande> historiqueCommandes;
 
     public CompteClient(String email, String motDePasse, InformationPersonnelle infos) {

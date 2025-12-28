@@ -1,5 +1,6 @@
 package pizzas;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +9,7 @@ import java.util.Set;
  * Un ingrédient possède un nom, un prix et une liste de types de pizzas pour lesquels
  * il est interdit.
  */
-public class Ingredient {
+public class Ingredient implements Serializable {
   
   // --------------- ATTRIBUTS ---------------
 

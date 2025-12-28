@@ -10,7 +10,6 @@ import java.util.List;
  * Le Menu centralise toutes les données.
  */
 public class Menu implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     private Set<Pizza> pizzas = new HashSet<>();
     private Set<Ingredient> ingredients = new HashSet<>();

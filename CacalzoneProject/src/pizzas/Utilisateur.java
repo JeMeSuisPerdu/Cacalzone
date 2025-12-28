@@ -3,10 +3,9 @@ package pizzas;
 import java.io.Serializable;
 
 /**
- * Classe abstraite représentant un utilisateur du système (Client ou Pizzaiolo).
+ * Classe abstraite représentant un utilisateur (client ou pizzaiolo).
  */
 public abstract class Utilisateur implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     protected String email;
     protected String motDePasse;
@@ -22,8 +21,5 @@ public abstract class Utilisateur implements Serializable {
     public String getMotDePasse() { return motDePasse; }
     public InformationPersonnelle getInfos() { return infos; }
     
-    /**
-     * Permet de distinguer les rôles sans utiliser instanceof partout.
-     */
     public abstract boolean estPizzaiolo();
 }

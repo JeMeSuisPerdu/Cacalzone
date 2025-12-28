@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Représente une commande de pizzas effectuée par un client.
- * Une commande suit un cycle de vie : créée, validée, puis traitée.
+ * Class qui représente une commande de pizzas effectuée par un client.
  */
 public class Commande implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     /**
      * États possibles d'une commande.
@@ -20,7 +18,9 @@ public class Commande implements Serializable {
         /** La commande est validée par le client et envoyée au pizzaïolo. */
         VALIDEE, 
         /** Le pizzaïolo a traité la commande (pizzas prêtes). */
-        TRAITEE 
+        TRAITEE,
+        /** La commande est annulée et ne sera pas prise en compte pour les calculs du ServiceClient */
+        ANNULEE
     }
 
     /** Liste des pizzas associées à leur quantité dans la commande. */
@@ -71,7 +71,6 @@ public class Commande implements Serializable {
 
     /**
      * Marque la commande comme traitée par le pizzaïolo.
-     * Cette action intervient après la lecture de la commande par le service pizzaïolo.
      */
     public void traiter() {
         if (this.etat == Etat.VALIDEE) {
@@ -79,6 +78,17 @@ public class Commande implements Serializable {
         }
     }
     
+    /**
+     * Permet d'annuler la commande si elle n'est pas à l'état TRAITEE.
+     * Vide la liste des pizzas de la commande actuelle.
+     * Met la commande à annuler (utile pour les méthodes dans ServiceClient).
+     */
+    public void annuler() {
+        if (this.etat == Etat.CREEE || this.etat == Etat.VALIDEE) {
+            this.pizzas.clear();
+            this.etat = Etat.ANNULEE;
+        }
+    }
     /**
      * Calcule le prix total de la commande en sommant le prix de chaque pizza.
      * * @return Le prix total de la commande.

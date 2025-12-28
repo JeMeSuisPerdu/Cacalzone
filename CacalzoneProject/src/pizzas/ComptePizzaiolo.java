@@ -1,10 +1,11 @@
 package pizzas;
 
+import java.io.Serializable;
+
 /**
- * Entité représentant le Pizzaiolo unique.
+ * Class représentant le Pizzaiolo unique.
  */
-public class ComptePizzaiolo extends Utilisateur {
-    private static final long serialVersionUID = 1L;
+public class ComptePizzaiolo extends Utilisateur implements Serializable {
 
     public ComptePizzaiolo(String email, String motDePasse, InformationPersonnelle infos) {
         super(email, motDePasse, infos);

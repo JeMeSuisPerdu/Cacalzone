@@ -1,14 +1,17 @@
 package pizzas;
 
+import java.io.Serializable;
+
 /**
  * Représente une évaluation laissée par un client sur une pizza. 
  * Contient une note obligatoire et un commentaire optionnel.
  */
-public class Evaluation {
+public class Evaluation implements Serializable{
 
     private int note;
     private String commentaire;
     private String emailClient;
+    
 
     /**
      * Constructeur d'une évaluation.

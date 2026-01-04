@@ -3,12 +3,15 @@ package pizzas;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 /**
  * Class qui représente une commande de pizzas effectuée par un client.
  */
 public class Commande implements Serializable {
 
+	
     /**
      * États possibles d'une commande.
      */
@@ -31,6 +34,8 @@ public class Commande implements Serializable {
     
     /** Le client ayant passé la commande. */
     private final CompteClient client;
+
+    private LocalDateTime date = LocalDateTime.now();
 
     /**
      * Constructeur de la commande.
@@ -107,4 +112,9 @@ public class Commande implements Serializable {
 
     /** @return La map des pizzas et leurs quantités. */
     public Map<Pizza, Integer> getPizzas() { return pizzas; }
+
+	public String getDate() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		return date.format(format);
+	}
 }

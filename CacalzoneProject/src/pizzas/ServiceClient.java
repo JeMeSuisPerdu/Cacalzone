@@ -10,10 +10,13 @@ import java.util.HashSet;
  */
 public class ServiceClient implements InterClient {
     private final Menu menu;
-    private CompteClient clientConnecte;
+
+
+	private CompteClient clientConnecte;
     private TypePizza filtreType;
     private double filtrePrixMax = Double.MAX_VALUE;
     private Set<String> ingredientsExclus = new HashSet<>();
+    private Commande commandeEnCours;
     
     public ServiceClient(Menu menu) {
         this.menu = menu;
@@ -47,16 +50,25 @@ public class ServiceClient implements InterClient {
 
     @Override
     public Commande debuterCommande() throws NonConnecteException {
-        if (clientConnecte == null) throw new NonConnecteException();
-        return new Commande(clientConnecte); 
+    	if (clientConnecte == null) throw new NonConnecteException();
+        // On mémorise la commande dans l'attribut
+        this.commandeEnCours = new Commande(clientConnecte); 
+        return this.commandeEnCours;
     }
 
     @Override
     public void validerCommande(Commande cmd) throws NonConnecteException, CommandeException {
-        if (clientConnecte == null) throw new NonConnecteException();
-        if (cmd.valider()) {
-            menu.ajouterCommande(cmd);
-            clientConnecte.ajouterCommande(cmd);
+    	if (clientConnecte == null) throw new NonConnecteException();
+        // On utilise cmd s'il est passé, sinon on prend celle en cours
+        Commande aValider = (cmd != null) ? cmd : this.commandeEnCours;
+        
+        if (aValider == null) throw new CommandeException();
+
+        if (aValider.valider()) {
+            menu.ajouterCommande(aValider);
+            clientConnecte.ajouterCommande(aValider);
+            // On réinitialise après validation
+            this.commandeEnCours = null; 
         }
     }
 
@@ -168,5 +180,26 @@ public class ServiceClient implements InterClient {
         p.getEvaluations().add(eval);
         return true;
     }
+    
+    public Menu getMenu() {
+		return menu;
+	}
+    
+    /**
+     * Permet de retrouver un objet Pizza complet à partir de son nom.
+     */
+    public Pizza getPizza(String nom) {
+        for (Pizza p : this.menu.getPizzas()) {
+            if (p.getNom().equals(nom)) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
+    public Commande getCommandeActive() {
+        return this.commandeEnCours;
+    }
+    
     
 }

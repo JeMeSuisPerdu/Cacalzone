@@ -333,4 +333,18 @@ public class ServicePizzaiolo implements InterPizzaiolo {
 
         return classement;
     }
+    
+    public Menu getMenu() {
+		return menu;
+	}
+ // Dans ServicePizzaiolo.java
+    public void reinitialiserInterdictionsIngredient(String nomIngredient) {
+        for (Ingredient ing : menu.getIngredients()) {
+            if (ing.getNom().equalsIgnoreCase(nomIngredient)) {
+                ing.getTypesPizzaInterdits().clear();
+                break;
+            }
+        }
+    }
+    
 }

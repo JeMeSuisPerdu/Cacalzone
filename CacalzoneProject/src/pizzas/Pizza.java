@@ -4,168 +4,198 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import pizzas.Ingredient;
 
-// A compléter
 /**
- * Classe Pizza qui regroupe les informations nécessaires à la création d'une pizza.
- * Elle dispose de deux méthodes utilitaires ainsi que d'une relation vers ingrédient.
- * Représente une pizza composée d'un nom, d'un type, d'un prix, d'une photo
- * et d'un ensemble d'ingrédients.
- *
+ * Classe Pizza représentant le produit principal de la pizzeria.
+ * 
+ * <p>Cette classe regroupe toutes les caractéristiques d'une pizza : son identité
+ * (nom, type, photo), sa composition (liste d'ingrédients), ses données
+ * financières (prix) et les retours clients (évaluations).
+ * Elle intègre également des méthodes utilitaires pour garantir la cohérence
+ * des données (calcul de prix minimal, validation des ingrédients).
+ * </p>
  */
-public class Pizza implements Serializable{
-  // --------------- ATTRIBUTS ---------------
-  /** Nom de la pizza. */
+public class Pizza implements Serializable {
+
+  /**
+   * Identifiant de sérialisation pour la persistance des données.
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Le nom commercial de la pizza (ex: "Reine", "Margherita").
+   */
   private String nom;
 
-  /** Type de pizza (base, taille, catégorie, etc.). */
+  /**
+   * La catégorie de la pizza (ex: VEGETARIENNE, VIANDE).
+   * Ce type détermine les restrictions sur les ingrédients ajoutables.
+   */
   private TypePizza typePizza;
 
-  /** Liste des ingrédients constituant la pizza. */
+  /**
+   * L'ensemble des ingrédients composant la pizza.
+   * L'utilisation d'un Set garantit l'unicité des ingrédients (pas de doublons).
+   */
   private Set<Ingredient> ingredients = new HashSet<>();
-  
-  /** Liste des évaluations constituant la pizza. */
+
+  /**
+   * L'ensemble des évaluations laissées par les clients pour cette pizza.
+   */
   private Set<Evaluation> evaluations = new HashSet<>();
-  
-  /** Prix final de la pizza. */
+
+  /**
+   * Le prix de vente défini par le pizzaïolo.
+   * S'il est null, le prix de vente sera égal au prix minimal calculé.
+   */
   private Double prix;
 
-  /** Photo de la pizza (URL ou chemin local). */
-  private String photo = "";
-  
-  // --------------- CONSTRUCTEUR ---------------
   /**
-   * Constructeur qui permet de créer une pizza à partir de son nom et de son type.
+   * Le chemin d'accès (URI) vers l'image illustrant la pizza.
+   * Initialisé à une chaîne vide par défaut.
+   */
+  private String photo = "";
+
+  /**
+   * Constructeur principal de la classe Pizza.
+   * Initialise une pizza avec les listes d'ingrédients et d'évaluations vides.
    *
-   * @param nom nom de la pizza
-   * @param typePizza type de la pizza
+   * @param nom Le nom donné à la pizza.
+   * @param typePizza Le type de la pizza (base de restrictions).
    */
   public Pizza(String nom, TypePizza typePizza) {
     super();
     this.nom = nom;
     this.typePizza = typePizza;
   }
-  
-  // --------------- GETTERS // SETTERS ---------------
 
-  /** 
-   * Retourne le nom de la pizza.
-   * 
-   * @return nom
+  /**
+   * Récupère le nom de la pizza.
+   *
+   * @return Le nom sous forme de chaîne de caractères.
    */
   public String getNom() {
     return nom;
   }
-  
+
   /**
    * Modifie le nom de la pizza.
-   * 
-   * @param nom nouveau nom
+   *
+   * @param nom Le nouveau nom à attribuer.
    */
   public void setNom(String nom) {
     this.nom = nom;
   }
-  
+
   /**
-   * Retourne le type de pizza.
-   * 
-   * @return typePizza
+   * Récupère le type (catégorie) de la pizza.
+   *
+   * @return La valeur de l'énumération TypePizza.
    */
   public TypePizza getTypePizza() {
     return typePizza;
   }
-  
+
   /**
    * Modifie le type de la pizza.
-   * 
-   * @param typePizza nouveau type
+   * Attention : cela peut rendre certains ingrédients actuels invalides si le
+   * nouveau type impose de nouvelles restrictions.
+   *
+   * @param typePizza Le nouveau type de pizza.
    */
   public void setTypePizza(TypePizza typePizza) {
     this.typePizza = typePizza;
   }
-  
+
   /**
-   * Retourne la liste des ingrédients associés à la pizza.
-   * 
-   * @return ingredients
+   * Accède à l'ensemble des ingrédients qui composent la pizza.
+   *
+   * @return Le Set des ingrédients.
    */
   public Set<Ingredient> getIngredients() {
     return ingredients;
   }
-  
+
   /**
-   * Modifie l’ensemble des ingrédients de la pizza.
-   * 
-   * @param ingredients nouvel ensemble d’ingrédients
+   * Remplace la liste complète des ingrédients.
+   *
+   * @param ingredients Le nouvel ensemble d'ingrédients.
    */
   public void setIngredients(Set<Ingredient> ingredients) {
     this.ingredients = ingredients;
   }
-  
+
   /**
-   * Retourne la liste des évaluations associés à la pizza.
-   * 
-   * @return evaluations
+   * Accède à l'ensemble des évaluations et notes associées à cette pizza.
+   *
+   * @return Le Set des évaluations.
    */
   public Set<Evaluation> getEvaluations() {
-	    return evaluations;
-  }
-  
-  /**
-   * Retourne le prix de la pizza ou le prix minimal
-   * si l'attribut prix est null
-   * 
-   * @return prix
-   */
-  public Double getPrix() {
-    return (this.prix != null) 
-	  ? this.prix 
-   	  : this.getPrixMinimalPizza();
-  }
-  
-  /**
-   * Définit le prix de la pizza si celui-ci est supérieur ou égal au prix minimal calculé.
-   * 
-   * @param prix prix souhaité
-   * @return true si le prix a été changé, 
-	false si le prix donné est inférieur au prix minimal
-   */
-  public boolean setPrix(Double prix) {
-	if (prix >= this.getPrixMinimalPizza()) {
-	  this.prix = prix;
-	  return true;
-	} else return false;
+    return evaluations;
   }
 
   /**
-   * Retourne le chemin ou lien vers la photo de la pizza.
+   * Récupère le prix de vente effectif de la pizza.
    * 
-   * @return photo
+   * <p>Si un prix manuel a été défini (attribut non null), c'est celui-ci qui est
+   * retourné. Sinon, la méthode renvoie le résultat de
+   * {@link #getPrixMinimalPizza()}.
+   * </p>
+   *
+   * @return Le prix de vente en euros.
+   */
+  public Double getPrix() {
+    return (this.prix != null) ? this.prix : this.getPrixMinimalPizza();
+  }
+
+  /**
+   * Tente de définir un nouveau prix de vente pour la pizza.
+   * 
+   * <p>Une vérification est effectuée : le nouveau prix doit être supérieur ou
+   * égal au prix minimal (coût de revient + marge). Si le prix est trop bas,
+   * la modification est refusée.
+   * </p>
+   *
+   * @param prix Le prix souhaité.
+   * @return true si le prix a été mis à jour, false s'il est inférieur au minimum autorisé.
+   */
+  public boolean setPrix(Double prix) {
+    if (prix >= this.getPrixMinimalPizza()) {
+      this.prix = prix;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Récupère le chemin vers le fichier image de la pizza.
+   *
+   * @return L'URI de la photo sous forme de String.
    */
   public String getPhoto() {
     return photo;
   }
 
   /**
-   * Définit la photo de la pizza.
-   * 
-   * @param photo chemin ou lien de l’image
+   * Définit l'image associée à la pizza.
+   *
+   * @param photo Le chemin ou l'URI du fichier image.
    */
   public void setPhoto(String photo) {
     this.photo = photo;
   }
 
-  // --------------- METHODES UTILITAIRES ---------------
-  
   /**
-   * Méthode utilitaire qui permet de vérifier si le prix minimal d'une pizza est respecté.  
-   * Le minimum est calculé ainsi :  
-   * - Somme du prix des ingrédients  
-   * - + 40 %  
-   * - Arrondi à la dizaine de centimes supérieure  
+   * Calcule le prix de revient minimal de la pizza selon les règles métier.
+   * 
+   * <p>La formule appliquée est la suivante :
+   * 1. Somme des prix unitaires de tous les ingrédients.
+   * 2. Ajout d'une marge de 40% (multiplication par 1.4).
+   * 3. Arrondi à la dizaine de centimes supérieure (ex: 12.11 devient 12.20).
+   * </p>
    *
-   * @return prix minimal de la pizza
+   * @return Le prix minimal calculé (Double).
    */
   public Double getPrixMinimalPizza() {
     Double sommePrix = 0.0;
@@ -175,25 +205,28 @@ public class Pizza implements Serializable{
     }
     Double prix40pourcent = (sommePrix * 1.4) * 100;
     Double prixMin = Math.ceil(prix40pourcent / 10.0) * 10.0 / 100;
-    
+
     return prixMin;
   }
-  
+
   /**
-   * Méthode utilitaire qui permet de vérifier si un ingrédient peut être ajouté à la pizza.  
-   * L’ajout est effectué seulement si :  
-   * - l’ingrédient n’est pas déjà présent dans la liste  
-   * - l’ingrédient n’est pas interdit pour le type de pizza  
+   * Tente d'ajouter un ingrédient à la pizza en respectant les contraintes.
+   * 
+   * <p>L'ajout n'est effectué que si deux conditions sont réunies :
+   * 1. L'ingrédient n'est pas déjà présent dans la pizza (évite les doublons).
+   * 2. L'ingrédient n'est pas interdit pour le {@link TypePizza} actuel de
+   * cette pizza (ex: pas de viande sur une végétarienne).
+   * </p>
    *
-   * @param i ingrédient à ajouter
-   * @return true si l’ajout est autorisé et effectué, false sinon
+   * @param i L'ingrédient à ajouter.
+   * @return true si l'ajout a réussi, false si l'ingrédient est rejeté.
    */
   public Boolean ajouterIngredient(Ingredient i) {
-    if (!this.ingredients.contains(i) && !i.getTypesPizzaInterdits().contains(this.getTypePizza())) {
+    if (!this.ingredients.contains(i)
+        && !i.getTypesPizzaInterdits().contains(this.getTypePizza())) {
       this.ingredients.add(i);
       return true;
     }
-    return false; 
-  } 
-  
+    return false;
+  }
 }

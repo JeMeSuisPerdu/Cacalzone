@@ -11,7 +11,11 @@ import java.util.Set;
  */
 public class Ingredient implements Serializable {
   
-  // --------------- ATTRIBUTS ---------------
+  /**
+   * Identifiant de sérialisation.
+   */
+  private static final long serialVersionUID = 1L;
+
 
   /** Nom de l'ingrédient. */
   String nom;
@@ -20,7 +24,7 @@ public class Ingredient implements Serializable {
   Double prix;
 
   /** Ensemble des types de pizzas sur lesquels cet ingrédient est interdit. */
-  Set<TypePizza> typesPizzaInterdits = new HashSet<>();;
+  Set<TypePizza> typesPizzaInterdits = new HashSet<>();
 
   // --------------- CONSTRUCTEUR ---------------
 
@@ -29,7 +33,6 @@ public class Ingredient implements Serializable {
    *
    * @param nom nom de l'ingrédient
    * @param prix prix de l'ingrédient
-   * @param typesPizzaInterdits ensemble des types de pizzas pour lesquels ingrédient = interdit
    */
   public Ingredient(String nom, Double prix) {
     super();

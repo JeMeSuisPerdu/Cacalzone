@@ -27,7 +27,8 @@ public class ServicePizzaiolo implements InterPizzaiolo {
   public ServicePizzaiolo(Menu menu) {
     this.menu = menu;
   }
-  //----------------------- METHODES -----------------------------
+  // ----------------------- METHODES -----------------------------
+  
   /**
    * Méthode qui permet de récupérer le menu associé au service.
    *
@@ -36,7 +37,8 @@ public class ServicePizzaiolo implements InterPizzaiolo {
   public Menu getMenu() {
     return menu;
   }
-  //--------------------------------------------------------------
+  
+  // --------------------------------------------------------------
   
   @Override
   public Pizza creerPizza(String nom, TypePizza type) {

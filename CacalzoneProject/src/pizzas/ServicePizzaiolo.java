@@ -27,7 +27,17 @@ public class ServicePizzaiolo implements InterPizzaiolo {
   public ServicePizzaiolo(Menu menu) {
     this.menu = menu;
   }
-
+  //----------------------- METHODES -----------------------------
+  /**
+   * Méthode qui permet de récupérer le menu associé au service.
+   *
+   * @return L'objet Menu.
+   */
+  public Menu getMenu() {
+    return menu;
+  }
+  //--------------------------------------------------------------
+  
   @Override
   public Pizza creerPizza(String nom, TypePizza type) {
     for (Pizza p : menu.getPizzas()) {
@@ -99,7 +109,35 @@ public class ServicePizzaiolo implements InterPizzaiolo {
 
     return false;
   }
+  
+  /**
+   * Autorise un type de pizza auparavant interdit pour un ingrédient.
+   * @param nomIngredient Le nom de l'ingrédient concerné
+   * @param type Le type de pizza à autoriser
+   * @return true si ce type a été autorisé pour l'ingrédient,
+   * faux s'il n'est pas interdit ou que le type ou l'ingrédient sont invalides.
+   */
+  public boolean autoriserTypePizza(String nomIngredient, TypePizza type) {
+      if (nomIngredient == null || nomIngredient.isBlank() || type == null) {
+          return false;
+      }
 
+      for (Ingredient ing : menu.getIngredients()) {
+          if (ing.getNom().equalsIgnoreCase(nomIngredient)) {
+              for (TypePizza tp : ing.getTypesPizzaInterdits()) {
+                  if (tp.equals(type)) {
+                      ing.removeTypePizzaInterdit(type);
+                      return true;
+                  }
+              }
+              
+              return false;
+          }
+      }
+
+      return false;
+  }
+  
   @Override
   public int ajouterIngredientPizza(Pizza pizza, String nomIngredient) {
     if (pizza == null || !menu.getPizzas().contains(pizza)) {
@@ -354,14 +392,6 @@ public class ServicePizzaiolo implements InterPizzaiolo {
     return classement;
   }
 
-  /**
-   * Récupère le menu associé au service.
-   *
-   * @return L'objet Menu.
-   */
-  public Menu getMenu() {
-    return menu;
-  }
 
   /**
    * Réinitialise les interdictions de types pour un ingrédient donné.

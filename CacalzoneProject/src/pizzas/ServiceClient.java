@@ -26,7 +26,6 @@ public class ServiceClient implements InterClient {
 
   /** Liste des noms d'ingrédients à exclure lors de la recherche. */
   private Set<String> ingredientsExclus = new HashSet<>();
-
   /** La commande actuellement en cours de préparation par le client. */
   private Commande commandeEnCours;
 

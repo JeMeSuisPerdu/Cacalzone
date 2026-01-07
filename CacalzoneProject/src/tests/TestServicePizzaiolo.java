@@ -19,7 +19,6 @@ import java.util.List;
  * L'objectif est de garantir que le service pizzaiolo fonctionne correctement
  * et que les opérations sur le menu et les commandes respectent les règles métier.
  * 
- * @author Safiatou
  */
 public class TestServicePizzaiolo {
 

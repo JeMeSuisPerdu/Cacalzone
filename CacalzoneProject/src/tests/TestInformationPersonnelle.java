@@ -19,7 +19,6 @@ import pizzas.InformationPersonnelle;
  * L'objectif est de garantir que les objets {@link InformationPersonnelle} restent
  * fiables et robustes face aux saisies correctes et incorrectes.
  * 
- * @author Safiatou
  */
 public class TestInformationPersonnelle {
 

@@ -50,9 +50,9 @@
                   <Label fx:id="labelListeIngredients" layoutX="14.0" layoutY="225.0" text="..." />
                   <ListView id="listeFilms" fx:id="listeIngredients" layoutX="12.0" layoutY="251.0" onMouseClicked="#actionListeSelectionIngredient" prefHeight="146.0" prefWidth="268.0" />
                   <Button layoutX="57.0" layoutY="106.0" mnemonicParsing="false" onAction="#actionBoutonModifierPrixIngredient" text="Modifier prix" />
-                  <Button layoutX="9.0" layoutY="144.0" mnemonicParsing="false" onAction="#actionBoutonInterdireIngredient" text="Interdire pour le type :" />
+				  <Button layoutX="9.0" layoutY="144.0" mnemonicParsing="false" onAction="#actionBoutonInterdireAutoriserIngredient" text="Interdire/Autoriser pour le type :" />
                   <Button layoutX="11.0" layoutY="400.0" mnemonicParsing="false" onAction="#actionBoutonAfficherTousIngredients" text="Afficher tous les ingrédients disponibles" />
-                  <ChoiceBox fx:id="choiceBoxTypeIngredient" layoutX="145.0" layoutY="143.0" prefHeight="26.0" prefWidth="150.0" />
+				  <ChoiceBox fx:id="choiceBoxTypeIngredient" layoutX="250.0" layoutY="143.0" prefHeight="26.0" prefWidth="130.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="310.0">

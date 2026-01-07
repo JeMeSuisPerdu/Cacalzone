@@ -20,7 +20,6 @@ import pizzas.*;
  * L'ensemble des scénarios testés représente des cas d'usage réels
  * d'un système de commande de pizzas.
  *
- * @author Safiatou
  */
 public class TestCommande {
 
@@ -101,7 +100,7 @@ public class TestCommande {
 
         // Ajout de deux pizzas identiques dans la commande
         commande.ajouterPizza(pizza1, 2);
-
+        
         // Vérification précise du prix total avec une tolérance monétaire
         assertEquals(prixP1 * 2, commande.getPrixTotal(), 0.01,
                 "Le prix total doit être : quantité × prix pizza");

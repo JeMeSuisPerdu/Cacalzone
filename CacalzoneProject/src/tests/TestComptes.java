@@ -13,12 +13,11 @@ import pizzas.*;
  * L'objectif est de garantir que les profils utilisateurs sont correctement
  * configurés dès leur création et que les droits d'accès sont respectés.
  * 
- * @author Safiatou
  */
 public class TestComptes {
 
     /**
-     * Vérifie que le {@link CompteClient} est correctement initialisé.
+     * Vérifie que le CompteClient est correctement initialisé.
      * <p>
      * Un client ne doit pas avoir de droits pizzaiolo et son historique
      * doit être prêt à recevoir des commandes.
@@ -37,7 +36,7 @@ public class TestComptes {
     }
 
     /**
-     * Vérifie que le {@link ComptePizzaiolo} possède les privilèges nécessaires.
+     * Vérifie que le ComptePizzaiolo possède les privilèges nécessaires.
      * <p>
      * Ce compte doit retourner {@code true} pour la méthode {@code estPizzaiolo()}.
      */

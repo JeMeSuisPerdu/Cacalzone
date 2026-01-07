@@ -405,26 +405,29 @@ public class PizzaioloControleur {
   }
 
   /**
-   * Applique une restriction : interdit l'utilisation de l'ingrédient saisi
-   * pour le type de pizza sélectionné (ex: Jambon interdit pour VEGETARIENNE).
-   * Affiche un message de succès ou d'erreur selon le retour du service.
-   *
-   * @param event L'événement du clic sur le bouton.
+   * Autorise ou interdit un type de pizza pour un ingrédient donné.
+   * Si le type séléctionné est déjà interdit, alors il devient autorisé,
+   * sinon il est bien ajouté à la liste des types interdits.
+   * Préviens l'utilisateur en cas de réussite ou d'échec.
+   * @param event Événement déclenché par le bouton.
    */
   @FXML
-  void actionBoutonInterdireIngredient(ActionEvent event) {
-    String nom = entreeNomIngredient.getText();
-    String typeStr = choiceBoxTypeIngredient.getValue();
-    if (nom.isEmpty() || typeStr == null) {
-      afficherPopupErreur("Sélectionnez un ingrédient et un type.");
-      return;
-    }
-    if (service.interdireIngredient(nom, TypePizza.valueOf(typeStr))) {
-      afficherPopupInformation(nom
-          + " est maintenant interdit pour le type " + typeStr);
-    } else {
-      afficherPopupErreur("Erreur lors de l'ajout de l'interdiction.");
-    }
+  void actionBoutonInterdireAutoriserIngredient(ActionEvent event) {
+      String nom = entreeNomIngredient.getText();
+      String typeStr = choiceBoxTypeIngredient.getValue();
+      
+      if (nom.isEmpty() || typeStr == null) {
+          afficherPopupErreur("Sélectionnez un ingrédient et un type.");
+          return;
+      }
+      
+      if (service.autoriserTypePizza(nom, TypePizza.valueOf(typeStr))) {
+          afficherPopupInformation(nom + " est maintenant autorisé pour le type " + typeStr);
+      } else if (service.interdireIngredient(nom, TypePizza.valueOf(typeStr))) {
+              afficherPopupInformation(nom + " est maintenant interdit pour le type " + typeStr);
+      } else {
+              afficherPopupErreur("Erreur lors de l'interdiction ou l'autorisation.");
+      }
   }
 
   /**

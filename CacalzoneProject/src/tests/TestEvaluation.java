@@ -17,7 +17,6 @@ import pizzas.Evaluation;
  * L'objectif est de s'assurer que le système est robuste et fiable face à
  * des saisies correctes et incorrectes.
  * 
- * @author Safiatou
  */
 public class TestEvaluation {
 

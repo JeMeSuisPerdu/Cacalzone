@@ -23,7 +23,6 @@ import pizzas.Ingredient;
  * L'objectif est de s'assurer que les objets {@link Pizza} restent cohérents,
  * fiables et conformes aux règles métier du système.
  * 
- * @author Safiatou
  */
 public class TestPizza {
 

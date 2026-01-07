@@ -19,7 +19,6 @@ import java.io.File;
  * L'objectif est de s'assurer que le service de sauvegarde permet de persister
  * et restaurer correctement les données de l'application.
  * 
- * @author Safiatou
  */
 public class TestServiceSauvegarde {
 

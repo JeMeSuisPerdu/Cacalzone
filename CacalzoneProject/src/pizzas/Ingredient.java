@@ -52,6 +52,16 @@ public class Ingredient implements Serializable {
     this.typesPizzaInterdits.add(typePizzaInterdit);
   }
   
+  /**
+   * Enlève un type de pizza pour lequel 
+   * cet ingrédient est désormais autorisé.
+   * 
+   * @param typePizzaInterdit type autorisé
+   */
+  public void removeTypePizzaInterdit(TypePizza typePizzaInterdit) {
+    this.typesPizzaInterdits.remove(typePizzaInterdit);
+  }
+  
   // --------------- GETTERS // SETTERS ---------------
 
   /**
@@ -107,5 +117,6 @@ public class Ingredient implements Serializable {
   public void setTypesPizzaInterdits(Set<TypePizza> typesPizzaInterdits) {
     this.typesPizzaInterdits = typesPizzaInterdits;
   }
+
   
 }

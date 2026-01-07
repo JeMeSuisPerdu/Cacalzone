@@ -329,7 +329,7 @@ public class ClientControleur {
   /**
    * Active un filtre pour ne conserver que les pizzas contenant l'ingrédient
    * saisi.
-   * Met à jour l'affichage de la liste des pizzas via `actualiserPizzas`.
+   * Met à jour l'affichage de la liste des pizzas via 'actualiserPizzas'.
    *
    * @param event L'événement du clic sur le bouton.
    */

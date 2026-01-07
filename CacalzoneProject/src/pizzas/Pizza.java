@@ -87,7 +87,7 @@ public class Pizza implements Serializable {
 	 */
 	
 	
-	public void setNom(String nom) {
+    public void setNom(String nom) {
 	    if (nom == null || nom.trim().isEmpty()) {
 	        throw new IllegalArgumentException("Le nom de la pizza ne peut pas être vide");
 	    }

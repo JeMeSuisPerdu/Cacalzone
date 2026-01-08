@@ -10,7 +10,7 @@ import pizzas.InformationPersonnelle;
 
 /**
  * Classe de test pour la classe ComptePizzaiolo.
- * 
+ *
  * <p>Cette classe vérifie le comportement spécifique du compte réservé au
  * gestionnaire de la pizzeria. Elle s'assure principalement que l'héritage
  * des données fonctionne et que les droits spécifiques (méthode
@@ -27,7 +27,10 @@ class TestComptePizzaiolo {
 
   /**
    * Initialisation des objets avant chaque exécution de test.
-   * Crée un profil de pizzaïolo standard ("Mario").
+   *
+   * <p>Crée un profil de pizzaïolo standard ("Mario") avec des données
+   * factices pour garantir un environnement de test propre.
+   * </p>
    */
   @BeforeEach
   void setUp() {
@@ -37,10 +40,10 @@ class TestComptePizzaiolo {
 
   /**
    * Vérifie que le constructeur initialise correctement les données.
-   * 
+   *
    * <p>Ce test s'assure que les paramètres passés au constructeur de
-   * {@code ComptePizzaiolo} sont bien transmis à la classe mère
-   * {@code Utilisateur} via le mot-clé {@code super()}.
+   * {@code ComptePizzaiolo} (email, mot de passe, infos) sont bien transmis
+   * à la classe mère {@code Utilisateur} et sont accessibles via les getters.
    * </p>
    */
   @Test
@@ -55,10 +58,10 @@ class TestComptePizzaiolo {
 
   /**
    * Vérifie que ce type de compte est bien identifié comme un compte Pizzaïolo.
-   * 
+   *
    * <p>Contrairement au {@code CompteClient}, la méthode {@code estPizzaiolo()}
    * doit impérativement renvoyer {@code true} pour permettre l'accès à
-   * l'interface de gestion.
+   * l'interface de gestion réservée au personnel.
    * </p>
    */
   @Test

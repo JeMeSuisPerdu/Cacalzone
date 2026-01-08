@@ -11,8 +11,8 @@ import pizzas.InformationPersonnelle;
 
 /**
  * Classe de test pour la classe InformationPersonnelle.
- * <p>
- * Vérifie le comportement des constructeurs, des accesseurs,
+ * 
+ * <p>Vérifie le comportement des constructeurs, des accesseurs,
  * des règles de validation dans les setters (âge positif, adresse non null)
  * et de l'égalité entre objets.
  * </p>
@@ -56,13 +56,11 @@ class TestInformationPersonnelle {
 
   @Test
   void testSetAgeInvalide() {
-    int ancienAge = personne.getAge(); // 41
+    int ancienAge = personne.getAge();
     
-    // Tentative avec une valeur négative
     personne.setAge(-10);
-    assertEquals(ancienAge, personne.getAge(), "L'âge ne doit pas changer pour une valeur négative");
+    assertEquals(ancienAge, personne.getAge(), "Age ne doit pas changer pour une valeur négative");
 
-    // Tentative avec 0 (selon le code "if (age > 0)")
     personne.setAge(0);
     assertEquals(ancienAge, personne.getAge(), "L'âge ne doit pas changer pour 0");
   }
@@ -75,11 +73,10 @@ class TestInformationPersonnelle {
 
   @Test
   void testSetAdresseInvalide() {
-    String ancienneAdresse = personne.getAdresse(); // "Londres"
+    String ancienneAdresse = personne.getAdresse();
     
-    // Tentative avec null
     personne.setAdresse(null);
-    assertEquals(ancienneAdresse, personne.getAdresse(), "L'adresse ne doit pas être mise à jour avec null");
+    assertEquals(ancienneAdresse, personne.getAdresse(), "Adresse doit pas être MAJ avec null");
     assertNotNull(personne.getAdresse());
   }
 
@@ -90,18 +87,18 @@ class TestInformationPersonnelle {
 
     assertTrue(p1.equals(p2), "Deux objets avec les mêmes attributs doivent être égaux");
     assertTrue(p2.equals(p1), "La relation d'égalité doit être symétrique");
-    assertEquals(p1.hashCode(), p2.hashCode(), "Les hashCodes doivent être identiques pour deux objets égaux");
+    assertEquals(p1.hashCode(), p2.hashCode(), "hashCodes doivent être pareil pour deux objets");
   }
 
   @Test
   void testNotEquals() {
     InformationPersonnelle p1 = new InformationPersonnelle("Turing", "Alan", "Londres", 41);
-    InformationPersonnelle p2 = new InformationPersonnelle("Turing", "Alan", "Paris", 41); // Adresse diff
-    InformationPersonnelle p3 = new InformationPersonnelle("Turing", "Alan", "Londres", 42); // Age diff
+    InformationPersonnelle p2 = new InformationPersonnelle("Turing", "Alan", "Paris", 41);
+    InformationPersonnelle p3 = new InformationPersonnelle("Turing", "Alan", "Londres", 42);
 
     assertFalse(p1.equals(p2), "Les objets ne doivent pas être égaux si l'adresse diffère");
     assertFalse(p1.equals(p3), "Les objets ne doivent pas être égaux si l'âge diffère");
     assertFalse(p1.equals(null), "Un objet ne doit pas être égal à null");
-    assertFalse(p1.equals("Une chaine"), "Un objet ne doit pas être égal à un objet d'une autre classe");
+    assertFalse(p1.equals("Une chaine"), "objet doit pas être égal à un objet d'une autre classe");
   }
 }

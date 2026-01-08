@@ -16,8 +16,8 @@ import pizzas.ServiceSauvegarde;
 
 /**
  * Classe de test pour ServiceSauvegarde.
- * <p>
- * Vérifie la capacité à écrire l'état du menu sur le disque et à le restaurer.
+ *
+ * <p>Vérifie la capacité à écrire l'état du menu sur le disque et à le restaurer.
  * S'assure également que la référence de l'objet Menu est préservée lors du
  * chargement (mise à jour du contenu et non remplacement de l'objet).
  * </p>
@@ -28,6 +28,12 @@ class TestServiceSauvegarde {
   private ServiceSauvegarde service;
   private final String fichierTest = "test_sauvegarde.ser";
 
+  /**
+   * Initialisation du contexte avant chaque test.
+   *
+   * <p>Crée un nouveau menu et le service de sauvegarde associé.
+   * </p>
+   */
   @BeforeEach
   void setUp() {
     menu = new Menu();
@@ -35,7 +41,11 @@ class TestServiceSauvegarde {
   }
 
   /**
-   * Nettoyage après chaque test : on supprime le fichier créé.
+   * Nettoyage après chaque test.
+   *
+   * <p>Supprime le fichier de sauvegarde temporaire créé pendant le test
+   * pour ne pas laisser de traces sur le disque.
+   * </p>
    */
   @AfterEach
   void tearDown() {
@@ -47,37 +57,41 @@ class TestServiceSauvegarde {
 
   /**
    * Vérifie le cycle complet de sauvegarde et de chargement.
-   * Scénario :
-   * 1. On modifie le menu (ajout ingrédient).
-   * 2. On sauvegarde.
-   * 3. On efface la mémoire.
-   * 4. On charge.
-   * 5. On vérifie que la donnée est revenue.
+   *
+   * <p>Scénario :
+   * 1. Ajout d'un ingrédient au menu.
+   * 2. Sauvegarde sur disque.
+   * 3. Effacement des données en mémoire.
+   * 4. Chargement depuis le disque.
+   * 5. Vérification que l'ingrédient est bien restauré.
+   * </p>
+   *
+   * @throws IOException ne doit pas être levée ici.
    */
   @Test
   void testSauvegarderEtCharger() throws IOException {
-    // 1. Préparation des données
     Ingredient ing = new Ingredient("TestIng", 10.0);
     menu.getIngredients().add(ing);
     assertFalse(menu.getIngredients().isEmpty());
 
-    // 2. Sauvegarde
     service.sauvegarderDonnees(fichierTest);
 
-    // 3. Altération de la mémoire (simulation de perte ou redémarrage)
     menu.getIngredients().clear();
-    assertTrue(menu.getIngredients().isEmpty(), "Le menu doit être vide avant chargement");
+    assertTrue(menu.getIngredients().isEmpty(),
+        "Le menu doit être vide avant chargement");
 
-    // 4. Chargement
     service.chargerDonnees(fichierTest);
 
-    // 5. Vérification
-    assertEquals(1, menu.getIngredients().size(), "La liste doit être restaurée");
+    assertEquals(1, menu.getIngredients().size(),
+        "La liste doit être restaurée");
     assertEquals("TestIng", menu.getIngredients().iterator().next().getNom());
   }
 
   /**
    * Vérifie le comportement si le fichier demandé n'existe pas.
+   *
+   * <p>Tente de charger un fichier inexistant. Une IOException doit être levée.
+   * </p>
    */
   @Test
   void testChargerFichierInexistant() {
@@ -87,23 +101,24 @@ class TestServiceSauvegarde {
   }
 
   /**
-   * Vérifie que le chargement met à jour l'instance existante du Menu
-   * au lieu de la remplacer. C'est crucial pour que les contrôleurs
+   * Vérifie la persistance de la référence de l'objet Menu.
+   *
+   * <p>Le chargement ne doit pas remplacer l'instance de Menu par une nouvelle,
+   * mais mettre à jour son contenu (listes). C'est crucial pour que les
+   * contrôleurs graphiques, qui possèdent une référence vers le menu,
    * voient les changements.
+   * </p>
+   *
+   * @throws IOException ne doit pas être levée ici.
    */
   @Test
   void testPersistanceReferenceMenu() throws IOException {
-    // On garde une référence vers l'objet menu original
     Menu referenceOriginale = menu;
 
-    // On fait une sauvegarde simple
     service.sauvegarderDonnees(fichierTest);
 
-    // On charge
     service.chargerDonnees(fichierTest);
 
-    // On vérifie que le service travaille toujours sur la même instance
-    // (l'adresse mémoire de l'objet est identique)
     assertTrue(menu == referenceOriginale,
         "L'objet Menu ne doit pas être remplacé, mais mis à jour");
   }

@@ -5,12 +5,11 @@ import java.io.Serializable;
 /**
  * Classe abstraite définissant le socle commun à tous les types d'utilisateurs
  * de l'application (Clients et Pizzaïolo).
- * 
+ *
  * <p>Elle regroupe les informations nécessaires à l'authentification (email,
  * mot de passe) ainsi que les données personnelles.
  * En tant que classe abstraite, elle ne peut pas être instanciée directement ;
- * elle sert de base pour le polymorphisme dans la gestion des comptes.
- * </p>
+ * elle sert de base pour le polymorphisme dans la gestion des comptes.</p>
  */
 public abstract class Utilisateur implements Serializable {
 

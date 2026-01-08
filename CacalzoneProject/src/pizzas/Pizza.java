@@ -27,14 +27,14 @@ public class Pizza implements Serializable {
   private String nom;
 
   /**
-   * La catégorie de la pizza (ex: VEGETARIENNE, VIANDE). Ce type détermine les
-   * restrictions sur les ingrédients ajoutables.
+   * La catégorie de la pizza (ex: VEGETARIENNE, VIANDE).
+   * Ce type détermine les restrictions sur les ingrédients ajoutables.
    */
   private TypePizza typePizza;
 
   /**
-   * L'ensemble des ingrédients composant la pizza. L'utilisation d'un Set
-   * garantit l'unicité des ingrédients (pas de doublons).
+   * L'ensemble des ingrédients composant la pizza.
+   * L'utilisation d'un Set garantit l'unicité des ingrédients (pas de doublons).
    */
   private Set<Ingredient> ingredients = new HashSet<>();
 
@@ -44,20 +44,22 @@ public class Pizza implements Serializable {
   private Set<Evaluation> evaluations = new HashSet<>();
 
   /**
-   * Le prix de vente défini par le pizzaïolo. S'il est null, le prix de vente
-   * sera égal au prix minimal calculé.
+   * Le prix de vente défini manuellement par le pizzaïolo.
+   * S'il est null, le prix de vente sera automatiquement égal au prix minimal calculé.
    */
   private Double prix;
 
   /**
-   * Le chemin d'accès (URI) vers l'image illustrant la pizza. Initialisé à une
-   * chaîne vide par défaut.
+   * Le chemin d'accès (URI) vers l'image illustrant la pizza.
+   * Initialisé à une chaîne vide par défaut.
    */
   private String photo = "";
 
   /**
-   * Constructeur principal de la classe Pizza. Initialise une pizza avec les
-   * listes d'ingrédients et d'évaluations vides.
+   * Constructeur principal de la classe Pizza.
+   *
+   * <p>Initialise une pizza avec un nom et un type donnés. Les listes
+   * d'ingrédients et d'évaluations sont initialisées vides.</p>
    *
    * @param nom Le nom donné à la pizza.
    * @param typePizza Le type de la pizza (base de restrictions).
@@ -79,10 +81,12 @@ public class Pizza implements Serializable {
 
   /**
    * Modifie le nom de la pizza.
-   * Si le nom est nul ou vide (après avoir enlevé les espaces),
-   * on lance l'exception IllegalArgumentException.
+   *
+   * <p>Une validation est effectuée : si le nom est nul ou vide (après avoir
+   * retiré les espaces), une exception est levée.</p>
    *
    * @param nom Le nouveau nom à attribuer.
+   * @throws IllegalArgumentException Si le nom est null ou vide.
    */
   public void setNom(String nom) {
     if (nom == null || nom.trim().isEmpty()) {
@@ -102,9 +106,11 @@ public class Pizza implements Serializable {
   }
 
   /**
-   * Modifie le type de la pizza. Attention : cela peut rendre certains
-   * ingrédients actuels invalides si le nouveau type impose de nouvelles
-   * restrictions.
+   * Modifie le type de la pizza.
+   *
+   * <p>Attention : changer le type peut rendre certains ingrédients actuels
+   * invalides si le nouveau type impose de nouvelles restrictions (ex: passer
+   * de VIANDE à VEGETARIENNE alors que la pizza contient du jambon).</p>
    *
    * @param typePizza Le nouveau type de pizza.
    */

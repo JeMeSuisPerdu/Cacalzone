@@ -1,6 +1,5 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,8 +22,7 @@ import pizzas.TypePizza;
 /**
  * Classe de test pour le ServiceClient.
  *
- * <p>
- * Couvre les scénarios d'inscription, connexion, cycle de vie d'une commande
+ * <p>Couvre les scénarios d'inscription, connexion, cycle de vie d'une commande
  * et filtrage des pizzas.
  * </p>
  */

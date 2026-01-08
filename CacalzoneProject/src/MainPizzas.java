@@ -1,5 +1,3 @@
-import pizzas.*;
-
 /**
  * Classe d'essai de fonctionnement de l'application.
  *
@@ -14,6 +12,5 @@ public class MainPizzas {
    * @param args inutiles ici.
    */
   public static void main(String[] args) {
-   System.out.println("Hey"); 
   }
 }

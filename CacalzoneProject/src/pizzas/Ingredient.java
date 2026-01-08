@@ -5,118 +5,132 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Représente un ingrédient pouvant être utilisé dans la composition d'une pizza.
- * Un ingrédient possède un nom, un prix et une liste de types de pizzas pour lesquels
- * il est interdit.
+ * Représente un ingrédient élémentaire pouvant entrer dans la composition d'une pizza.
+ *
+ * <p>Un ingrédient est caractérisé par son nom commercial et son coût unitaire.
+ * Il possède également une logique de restriction : il contient une liste de
+ * {@link TypePizza} pour lesquels son ajout est interdit (par exemple, de la
+ * viande sera interdite sur une pizza de type végétarienne).</p>
  */
 public class Ingredient implements Serializable {
-  
+
   /**
-   * Identifiant de sérialisation.
+   * Identifiant de sérialisation utilisé pour garantir la compatibilité
+   * des versions de classe lors de la sauvegarde et du chargement des données.
    */
   private static final long serialVersionUID = 1L;
 
-
-  /** Nom de l'ingrédient. */
+  /**
+   * Le nom commercial de l'ingrédient (ex: "Mozzarella", "Jambon").
+   */
   String nom;
 
-  /** Prix (unitaire) de l'ingrédient. */
+  /**
+   * Le prix unitaire de l'ingrédient en euros.
+   * Ce prix est utilisé pour calculer le coût de revient des pizzas.
+   */
   Double prix;
 
-  /** Ensemble des types de pizzas sur lesquels cet ingrédient est interdit. */
+  /**
+   * L'ensemble des types de pizzas avec lesquels cet ingrédient est incompatible.
+   * Si un type est présent dans cet ensemble, l'ingrédient ne pourra pas être
+   * ajouté à une pizza de ce type.
+   */
   Set<TypePizza> typesPizzaInterdits = new HashSet<>();
 
-  // --------------- CONSTRUCTEUR ---------------
-
   /**
-   * Constructeur permettant de créer un ingrédient.
+   * Construit un nouvel ingrédient avec un nom et un prix définis.
    *
-   * @param nom nom de l'ingrédient
-   * @param prix prix de l'ingrédient
+   * <p>La liste des types de pizzas interdits est initialisée vide par défaut.
+   * Elle pourra être remplie ultérieurement via les méthodes dédiées.</p>
+   *
+   * @param nom Le nom commercial de l'ingrédient.
+   * @param prix Le coût unitaire de l'ingrédient.
    */
   public Ingredient(String nom, Double prix) {
     super();
     this.nom = nom;
     this.prix = prix;
   }
-  
-  // ----------------- METHODES---------------------
-  
+
   /**
-   * Ajoute un type de pizza pour lequel 
-   * cet ingrédient est interdit.
-   * 
-   * @param typePizzaInterdit nouveau type interdit
+   * Ajoute une restriction pour un type de pizza donné.
+   *
+   * <p>Après cet appel, l'ingrédient sera considéré comme interdit pour toutes
+   * les pizzas du type spécifié.</p>
+   *
+   * @param typePizzaInterdit Le type de pizza avec lequel l'ingrédient devient incompatible.
    */
   public void addTypePizzaInterdit(TypePizza typePizzaInterdit) {
     this.typesPizzaInterdits.add(typePizzaInterdit);
   }
-  
+
   /**
-   * Enlève un type de pizza pour lequel 
-   * cet ingrédient est désormais autorisé.
-   * 
-   * @param typePizzaInterdit type autorisé
+   * Lève une restriction existante pour un type de pizza donné.
+   *
+   * <p>Après cet appel, l'ingrédient sera de nouveau autorisé pour les pizzas
+   * du type spécifié.</p>
+   *
+   * @param typePizzaInterdit Le type de pizza pour lequel l'ingrédient redevient autorisé.
    */
   public void removeTypePizzaInterdit(TypePizza typePizzaInterdit) {
     this.typesPizzaInterdits.remove(typePizzaInterdit);
   }
-  
-  // --------------- GETTERS // SETTERS ---------------
 
   /**
-   * Renvoie le nom de l'ingrédient.
-   * 
-   * @return nom de l'ingrédient
+   * Récupère le nom de l'ingrédient.
+   *
+   * @return Le nom sous forme de chaîne de caractères.
    */
   public String getNom() {
     return nom;
   }
 
   /**
-   * Modifie le nom de l'ingrédient.
-   * 
-   * @param nom nouveau nom
+   * Modifie le nom commercial de l'ingrédient.
+   *
+   * @param nom Le nouveau nom à attribuer à l'ingrédient.
    */
   public void setNom(String nom) {
     this.nom = nom;
   }
 
   /**
-   * Renvoie le prix de l'ingrédient.
-   * 
-   * @return prix de l'ingrédient
+   * Récupère le prix unitaire de l'ingrédient.
+   *
+   * @return Le prix en euros.
    */
   public Double getPrix() {
     return prix;
   }
 
   /**
-   * Modifie le prix de l'ingrédient.
-   * 
-   * @param prix nouveau prix
+   * Modifie le prix unitaire de l'ingrédient.
+   *
+   * <p>Attention, cette modification impactera le calcul du prix minimal
+   * de toutes les pizzas utilisant cet ingrédient.</p>
+   *
+   * @param prix Le nouveau prix unitaire.
    */
   public void setPrix(Double prix) {
     this.prix = prix;
   }
 
   /**
-   * Renvoie l'ensemble des types de pizzas pour lesquels cet ingrédient est interdit.
-   * 
-   * @return ensemble des types interdits
+   * Récupère l'ensemble des restrictions associées à cet ingrédient.
+   *
+   * @return Un Set contenant tous les types de pizzas interdits pour cet ingrédient.
    */
   public Set<TypePizza> getTypesPizzaInterdits() {
     return typesPizzaInterdits;
   }
 
   /**
-   * Modifie la liste des types de pizzas pour lesquels cet ingrédient est interdit.
-   * 
-   * @param typesPizzaInterdits nouvel ensemble de types interdits
+   * Remplace la liste complète des restrictions de l'ingrédient.
+   *
+   * @param typesPizzaInterdits Le nouvel ensemble des types de pizzas interdits.
    */
   public void setTypesPizzaInterdits(Set<TypePizza> typesPizzaInterdits) {
     this.typesPizzaInterdits = typesPizzaInterdits;
   }
-
-  
 }

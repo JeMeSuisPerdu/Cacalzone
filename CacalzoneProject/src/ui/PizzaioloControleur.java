@@ -358,11 +358,10 @@ public class PizzaioloControleur {
 
   /**
    * Crée un nouvel ingrédient à partir des champs de saisie.
-   * Gère les erreurs de saisie (prix non numérique) et les erreurs métier
-   * (ingrédient déjà existant).
-   * Vide les champs de saisie en cas de succès.
-   *
-   * @param event L'événement du clic sur le bouton.
+   * Vérifie que les données saisies soient valides ou que l'ingrédient
+   * n'existe pas déjà, préviens l'utilisateur en cas de réussite ou d'échec.
+   * 
+   * @param event Événement déclenché par le bouton.
    */
   @FXML
   void actionBoutonCreerIngredient(ActionEvent event) {
@@ -374,9 +373,12 @@ public class PizzaioloControleur {
         afficherPopupInformation("Ingrédient créé !");
         viderChampsIngredient();
         actionBoutonAfficherTousIngredients(event);
+      } else if (res == -1) {
+        afficherPopupErreur("Erreur : Nom de l'ingrédient invalide.");
+      } else if (res == -2) {
+        afficherPopupErreur("Erreur : Un ingrédient du même nom existe déjà.");
       } else {
-        afficherPopupErreur(
-            "Erreur : Ingrédient déjà présent ou données invalides.");
+        afficherPopupErreur("Erreur : Prix invalide.");
       }
     } catch (NumberFormatException e) {
       afficherPopupErreur("Le prix doit être un nombre.");
@@ -409,25 +411,30 @@ public class PizzaioloControleur {
    * Si le type séléctionné est déjà interdit, alors il devient autorisé,
    * sinon il est bien ajouté à la liste des types interdits.
    * Préviens l'utilisateur en cas de réussite ou d'échec.
+   * 
    * @param event Événement déclenché par le bouton.
    */
   @FXML
   void actionBoutonInterdireAutoriserIngredient(ActionEvent event) {
-      String nom = entreeNomIngredient.getText();
-      String typeStr = choiceBoxTypeIngredient.getValue();
+    String nom = entreeNomIngredient.getText();
+    String typeStr = choiceBoxTypeIngredient.getValue();
       
-      if (nom.isEmpty() || typeStr == null) {
-          afficherPopupErreur("Sélectionnez un ingrédient et un type.");
-          return;
-      }
+    if (nom.isEmpty() || typeStr == null) {
+      afficherPopupErreur("Sélectionnez un ingrédient et un type.");
+      actionBoutonAfficherTousIngredients(event);
+      return;
+    }
       
-      if (service.autoriserTypePizza(nom, TypePizza.valueOf(typeStr))) {
-          afficherPopupInformation(nom + " est maintenant autorisé pour le type " + typeStr);
-      } else if (service.interdireIngredient(nom, TypePizza.valueOf(typeStr))) {
-              afficherPopupInformation(nom + " est maintenant interdit pour le type " + typeStr);
-      } else {
-              afficherPopupErreur("Erreur lors de l'interdiction ou l'autorisation.");
-      }
+    if (service.autoriserTypePizza(nom, TypePizza.valueOf(typeStr))) {
+      afficherPopupInformation(nom + " est maintenant autorisé pour le type " + typeStr);
+      actionBoutonAfficherTousIngredients(event);
+    } else if (service.interdireIngredient(nom, TypePizza.valueOf(typeStr))) {
+      afficherPopupInformation(nom + " est maintenant interdit pour le type " + typeStr);
+      actionBoutonAfficherTousIngredients(event);
+    } else {
+      afficherPopupErreur("Erreur lors de l'interdiction ou l'autorisation.");
+      actionBoutonAfficherTousIngredients(event);
+    }
   }
 
   /**

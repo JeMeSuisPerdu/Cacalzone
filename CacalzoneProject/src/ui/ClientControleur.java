@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +43,20 @@ public class ClientControleur {
 
   /** Liste tampon des évaluations affichées dans l'interface. */
   private List<Evaluation> evaluationsAffichees = new ArrayList<>();
+  
+  /**
+   * Met à jour la liste des pizzas selon le filtre actif.
+   * Rafraîchit l'affichage et le libellé associé.
+   * 
+   * @param message Message donnant le nom du filtre appliqué.
+   */
+  private void majlisteFiltrees(String message) {
+    listePizzas.getItems().clear();
+    for (pizzas.Pizza p : service.selectionPizzaFiltres()) {
+      listePizzas.getItems().add(p.getNom() + " - " + p.getPrix() + "€");
+    }
+    labelListePizzas.setText(message);
+  }
 
   /** Liste déroulante pour filtrer les pizzas par type. */
   @FXML
@@ -335,10 +350,11 @@ public class ClientControleur {
    */
   @FXML
   void actionBoutonAppliquerFiltreContientngredient(ActionEvent event) {
-    String ingredient = entreeFiltreContientIngredient.getText();
-    if (ingredient != null && !ingredient.isEmpty()) {
-      service.ajouterFiltre(ingredient);
-      actualiserPizzas("Filtre : Contient " + ingredient);
+    String ingredients = entreeFiltreContientIngredient.getText();
+    if (ingredients != null && !ingredients.isEmpty()) {
+      String [] listeIngredient = ingredients.split(", ");
+      service.ajouterFiltre(listeIngredient);
+      majlisteFiltrees("Filtre : Contient " + Arrays.toString(listeIngredient));
     }
   }
 
@@ -388,6 +404,7 @@ public class ClientControleur {
 
     if (service.connexion(email, mdp)) {
       afficherPopupInformation("Bienvenue ! Connexion réussie.");
+      entreeAuteurEvaluation.setText(this.service.getClient().getEmail());
     } else {
       afficherPopupErreur("Identifiants incorrects.");
     }
@@ -407,8 +424,9 @@ public class ClientControleur {
           "Nouvelle commande créée. Vous pouvez ajouter des pizzas.");
       labelListeCommandes.setText("Commande en cours...");
       listeCommandes.getItems().clear();
+      actionBoutonAfficherToutesPizzas(event);
     } catch (Exception e) {
-      afficherPopupErreur("ERREUR : " + e.getMessage());
+      afficherPopupErreur("Vous devez être connecté pour créer une commande.");
     }
   }
 
@@ -425,8 +443,13 @@ public class ClientControleur {
       afficherPopupInformation("Vous avez été déconnecté.");
       entreeEmailClient.clear();
       entreeMotDePasseClient.clear();
+      actionBoutonAfficherToutesPizzas(event);
+      actionBoutonAfficherCommandesEnCours(event);
+      actionBoutonReinitialiserFiltre(event);
+      texteCommentaireEvaluation.clear();
+      entreeAuteurEvaluation.clear();
     } catch (Exception e) {
-      afficherPopupErreur("Erreur : " + e.getMessage());
+      afficherPopupErreur("Erreur : Vous n'êtes pas connectés");
     }
   }
 
@@ -452,9 +475,13 @@ public class ClientControleur {
       afficherPopupErreur("Veuillez remplir tous les champs du formulaire.");
       return;
     }
-
+    int age = Integer.parseInt(ageBrut);
+    if (age < 15 || age > 115) {
+      afficherPopupErreur("L'âge doit être entre 15 et 115 ans.");
+      return;
+    }
+    
     try {
-      int age = Integer.parseInt(ageBrut);
       InformationPersonnelle infos = new InformationPersonnelle(nom, prenom,
           adresse, age);
       int res = service.inscription(email, mdp, infos);
@@ -506,7 +533,7 @@ public class ClientControleur {
       listeCommandes.getItems().clear();
       labelListeCommandes.setText("Aucune commande en cours");
     } catch (Exception e) {
-      afficherPopupErreur("Erreur : " + e.getMessage());
+      afficherPopupErreur("Erreur : Impossible de valider la commande. ");
     }
   }
 

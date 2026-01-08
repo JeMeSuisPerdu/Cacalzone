@@ -37,16 +37,16 @@ public class ServicePizzaiolo implements InterPizzaiolo {
   public Menu getMenu() {
     return menu;
   }
-  
   // --------------------------------------------------------------
   
   @Override
   public Pizza creerPizza(String nom, TypePizza type) {
-    for (Pizza p : menu.getPizzas()) {
-      if (p.getNom().equalsIgnoreCase(nom)) {
-        return null;
-      }
+    if (nom == null || nom.isBlank()
+        || menu.getPizzas().stream()
+            .anyMatch(e -> e.getNom().equalsIgnoreCase(nom))) {
+      return null;
     }
+
     Pizza nouvelle = new Pizza(nom, type);
     menu.getPizzas().add(nouvelle);
     return nouvelle;
@@ -70,6 +70,13 @@ public class ServicePizzaiolo implements InterPizzaiolo {
     if (p <= 0) {
       return -3;
     }
+
+    // Vérification de l'existence (doublon)
+    if (menu.getIngredients().stream()
+        .anyMatch(e -> e.getNom().equalsIgnoreCase(n))) {
+      return -2;
+    }
+
     menu.getIngredients().add(new Ingredient(n, p));
     return 0;
   }
@@ -114,30 +121,29 @@ public class ServicePizzaiolo implements InterPizzaiolo {
   
   /**
    * Autorise un type de pizza auparavant interdit pour un ingrédient.
-   * @param nomIngredient Le nom de l'ingrédient concerné
-   * @param type Le type de pizza à autoriser
-   * @return true si ce type a été autorisé pour l'ingrédient,
-   * faux s'il n'est pas interdit ou que le type ou l'ingrédient sont invalides.
+   *
+   * @param nomIngredient Le nom de l'ingrédient concerné.
+   * @param type Le type de pizza à autoriser.
+   * @return true si ce type a été autorisé pour l'ingrédient, sinon false.
    */
   public boolean autoriserTypePizza(String nomIngredient, TypePizza type) {
-      if (nomIngredient == null || nomIngredient.isBlank() || type == null) {
-          return false;
-      }
-
-      for (Ingredient ing : menu.getIngredients()) {
-          if (ing.getNom().equalsIgnoreCase(nomIngredient)) {
-              for (TypePizza tp : ing.getTypesPizzaInterdits()) {
-                  if (tp.equals(type)) {
-                      ing.removeTypePizzaInterdit(type);
-                      return true;
-                  }
-              }
-              
-              return false;
-          }
-      }
-
+    if (nomIngredient == null || nomIngredient.isBlank() || type == null) {
       return false;
+    }
+
+    for (Ingredient ing : menu.getIngredients()) {
+      if (ing.getNom().equalsIgnoreCase(nomIngredient)) {
+        for (TypePizza tp : ing.getTypesPizzaInterdits()) {
+          if (tp.equals(type)) {
+            ing.removeTypePizzaInterdit(type);
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+
+    return false;
   }
   
   @Override
@@ -148,24 +154,19 @@ public class ServicePizzaiolo implements InterPizzaiolo {
     if (nomIngredient == null || nomIngredient.isBlank()) {
       return -2;
     }
-    Ingredient ingredientAtrouver = null;
+    
     for (Ingredient ing : menu.getIngredients()) {
       if (ing.getNom().equalsIgnoreCase(nomIngredient)) {
-        ingredientAtrouver = ing;
-        break;
+        if (ing.getTypesPizzaInterdits().contains(pizza.getTypePizza())) {
+          return -3;
+        }
+         
+        pizza.ajouterIngredient(ing);
+        return 0;              
       }
     }
-    if (ingredientAtrouver == null) {
-      return -2;
-    }
-    if (ingredientAtrouver.getTypesPizzaInterdits()
-        .contains(pizza.getTypePizza())) {
-      return -3;
-    }
-
-    pizza.ajouterIngredient(ingredientAtrouver);
-    return 0;
-  }
+    return -2;
+  } 
 
   @Override
   public int retirerIngredientPizza(Pizza pizza, String nomIngredient) {

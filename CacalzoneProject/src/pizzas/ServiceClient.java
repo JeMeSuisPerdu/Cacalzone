@@ -24,8 +24,9 @@ public class ServiceClient implements InterClient {
   /** Filtre sur le prix maximum, initialisé à la valeur maximale. */
   private double filtrePrixMax = Double.MAX_VALUE;
 
-  /** Liste des noms d'ingrédients à exclure lors de la recherche. */
-  private Set<String> ingredientsExclus = new HashSet<>();
+  /** Liste des noms d'ingrédients à avoir lors de la recherche. */
+  private Set<String> filtreIngredients = new HashSet<>();
+  
   /** La commande actuellement en cours de préparation par le client. */
   private Commande commandeEnCours;
 
@@ -151,8 +152,9 @@ public class ServiceClient implements InterClient {
 
   @Override
   public void ajouterFiltre(String... ingredients) {
+    this.filtreIngredients.clear();
     for (String s : ingredients) {
-      this.ingredientsExclus.add(s.toLowerCase());
+      this.filtreIngredients.add(s.toLowerCase());
     }
   }
 
@@ -173,26 +175,33 @@ public class ServiceClient implements InterClient {
         continue;
       }
 
-      boolean contientExclu = false;
-      for (Ingredient ing : p.getIngredients()) {
-        if (ingredientsExclus.contains(ing.getNom().toLowerCase())) {
-          contientExclu = true;
-          break;
+      boolean contientIngredientFiltre = false;
+      
+      // Si la liste de filtres est vide, on considère que la pizza est valide
+      // (Sinon aucune pizza ne s'affichera par défaut)
+      if (this.filtreIngredients.isEmpty()) {
+        contientIngredientFiltre = true;
+      } else {
+        for (Ingredient ing : p.getIngredients()) {
+          if (this.filtreIngredients.contains(ing.getNom().toLowerCase())) {
+            contientIngredientFiltre = true;
+            break;
+          }
         }
       }
 
-      if (!contientExclu) {
+      if (contientIngredientFiltre) {
         resultat.add(p);
       }
     }
     return resultat;
   }
-
+  
   @Override
   public void supprimerFiltres() {
     this.filtreType = null;
     this.filtrePrixMax = Double.MAX_VALUE;
-    this.ingredientsExclus.clear();
+    this.filtreIngredients.clear();
   }
 
   @Override
@@ -259,4 +268,14 @@ public class ServiceClient implements InterClient {
   public Commande getCommandeActive() {
     return this.commandeEnCours;
   }
+  
+  /**
+   * Récupère le compte du client actuellement connecté au service.
+   *
+   * @return Le client connecté, ou null si aucun utilisateur n'est authentifié.
+   */
+  public CompteClient getClient() {
+    return this.clientConnecte;
+  }
+  
 }
